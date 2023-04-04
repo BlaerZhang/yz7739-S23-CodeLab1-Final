@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using MoreMountains.Feedbacks;
+// using SplatterSystem;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -20,6 +22,14 @@ public class HitDetect : MonoBehaviour
 
     public MMF_Player hitWeaponFeedback;
 
+    public GameObject bloodStain;
+
+    public GameObject player1BambooBloodStain;
+    
+    public GameObject player2BambooBloodStain;
+    
+    // public BitmapSplatterManager splatterManager;
+
     private Rigidbody2D weaponRb2D;
 
     private bool isHit = false;
@@ -30,10 +40,12 @@ public class HitDetect : MonoBehaviour
     {
         // hitBodyFeedback = GetComponentInParent<MMF_Player>();
         weaponRb2D = GetComponent<Rigidbody2D>();
+        player1BambooBloodStain.SetActive(false);
+        player2BambooBloodStain.SetActive(false);
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (rivalFootJoint.enabled == false && rivalHandJoint.enabled == false)
         {
@@ -57,6 +69,7 @@ public class HitDetect : MonoBehaviour
         if (hitCoolDown >= 0.5f)
         {
             isHit = false;
+            hitCoolDown = 0;
         }
     }
 
@@ -69,17 +82,34 @@ public class HitDetect : MonoBehaviour
                 if(col.gameObject.CompareTag("Player 1 Upper Body") || col.gameObject.CompareTag("Player 2 Upper Body"))
                 {
                     isHit = true;
-                    hitBodyFeedback.transform.position = col.GetContact(0).point;
+                    Vector3 hitPoint = col.GetContact(0).point;
+                    hitBodyFeedback.transform.position = hitPoint;
                     hitBodyFeedback.PlayFeedbacks();
                     rivalHandJoint.enabled = false;
+                    int orderInLayer = col.gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+                    bloodStain.GetComponent<SpriteRenderer>().sortingOrder = orderInLayer + 1;
+                    Instantiate<GameObject>(bloodStain, hitPoint, Quaternion.identity, col.gameObject.transform);
+                    // if (col.gameObject.name == "Body" || col.gameObject.name == "Head")
+                    // {
+                    //     Instantiate<GameObject>(bloodStain, hitPoint, Quaternion.identity, col.gameObject.transform);
+                    // }
+                    // splatterManager.Spawn(hitPoint);
+                    ShowBambooBloodStain();
+                    
                 }
         
                 if(col.gameObject.CompareTag("Player 1 Lower Body") || col.gameObject.CompareTag("Player 2 Lower Body"))
                 {
                     isHit = true;
-                    hitBodyFeedback.transform.position = col.GetContact(0).point;
+                    Vector3 hitPoint = col.GetContact(0).point;
+                    hitBodyFeedback.transform.position = hitPoint;
                     hitBodyFeedback.PlayFeedbacks();
                     rivalFootJoint.enabled = false;
+                    int orderInLayer = col.gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+                    bloodStain.GetComponent<SpriteRenderer>().sortingOrder = orderInLayer + 1;
+                    Instantiate<GameObject>(bloodStain, hitPoint, Quaternion.identity, col.gameObject.transform);
+                    // splatterManager.Spawn(hitPoint);
+                    ShowBambooBloodStain();
                 }
 
                 if (col.gameObject.CompareTag("Player 1 Weapon") || col.gameObject.CompareTag("Player 2 Weapon"))
@@ -105,6 +135,19 @@ public class HitDetect : MonoBehaviour
             //     }
             // }
             
+        }
+    }
+
+    void ShowBambooBloodStain()
+    {
+        if (gameObject.CompareTag("Player 1 Weapon"))
+        {
+            player2BambooBloodStain.SetActive(true);
+        }
+        
+        if (gameObject.CompareTag("Player 2 Weapon"))
+        {
+            player1BambooBloodStain.SetActive(true);
         }
     }
 
