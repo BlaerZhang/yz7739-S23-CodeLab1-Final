@@ -18,15 +18,17 @@ public class HitDetect : MonoBehaviour
 
     public float weaponContactForce = 10;
 
-    public MMF_Player hitBodyFeedback;
+    private MMF_Player hitBodyFeedback;
 
-    public MMF_Player hitWeaponFeedback;
+    private MMF_Player hitWeaponFeedback;
 
     public GameObject bloodStain;
 
     public GameObject player1BambooBloodStain;
     
     public GameObject player2BambooBloodStain;
+
+    private TrailRenderer weaponTrail;
     
     // public BitmapSplatterManager splatterManager;
 
@@ -40,6 +42,9 @@ public class HitDetect : MonoBehaviour
     {
         // hitBodyFeedback = GetComponentInParent<MMF_Player>();
         weaponRb2D = GetComponent<Rigidbody2D>();
+        hitBodyFeedback = GameObject.Find("Hit Body Feedback").GetComponent<MMF_Player>();
+        hitWeaponFeedback = GameObject.Find("Hit Weapon Feedback").GetComponent<MMF_Player>();
+        weaponTrail = GetComponentInChildren<TrailRenderer>();
         player1BambooBloodStain.SetActive(false);
         player2BambooBloodStain.SetActive(false);
     }
@@ -47,6 +52,7 @@ public class HitDetect : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // TrailSwitch();
         if (rivalFootJoint.enabled == false && rivalHandJoint.enabled == false)
         {
             GameManager.instance.isInGame = false;
@@ -150,5 +156,17 @@ public class HitDetect : MonoBehaviour
             player1BambooBloodStain.SetActive(true);
         }
     }
+
+    // void TrailSwitch()
+    // {
+    //     if (weaponRb2D.angularVelocity > 5f)
+    //     {
+    //         weaponTrail.enabled = true;
+    //     }
+    //     else
+    //     {
+    //         weaponTrail.enabled = false;
+    //     }
+    // }
 
 }
