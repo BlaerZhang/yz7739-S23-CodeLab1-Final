@@ -14,4 +14,5 @@ public class ActionForceScriptableObject : ScriptableObject
 {
     public float bendingForceAmount;
     public float wavingForceAmount;
+    public float climbingForceAmount;
 }

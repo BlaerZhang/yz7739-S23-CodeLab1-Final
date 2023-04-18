@@ -11,6 +11,8 @@ TagManager:
   - Ground
   - Player 1 Weapon
   - Player 2 Weapon
+  - Player 1 Body
+  - Bamboo
   layers:
   - Default
   - TransparentFX
@@ -27,8 +29,8 @@ TagManager:
   - Player 2 Weapon
   - Player 2 Bamboo
   - Ground
-  - 
-  - 
+  - Player 1 Grabber
+  - Player 2 Grabber
   - 
   - 
   - 

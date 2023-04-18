@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using MoreMountains.Feedbacks;
 using Unity.VisualScripting;
 using UnityEngine;
+using TMPro;
 
 public class Grounded : MonoBehaviour
 {
@@ -11,16 +12,11 @@ public class Grounded : MonoBehaviour
 
     private bool isGrounded = false;
     
-    // Start is called before the first frame update
+    private TextMeshProUGUI subText;
+    
     void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        subText = GameObject.Find("Sub Text").GetComponent<TextMeshProUGUI>();
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -29,6 +25,7 @@ public class Grounded : MonoBehaviour
         {
             isGrounded = true;
             groundFeedback.PlayFeedbacks();
+            subText.text += "\nPress A or Space to Restart";
         }
     }
 }

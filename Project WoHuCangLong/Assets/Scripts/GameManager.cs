@@ -10,19 +10,10 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public bool isInGame = true;
     
-    // Start is called before the first frame update
     void Start()
     {
         instance = this;
         isInGame = true;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-    }
+    
 }

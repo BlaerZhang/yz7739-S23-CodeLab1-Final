@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 
 public class HitDetect : MonoBehaviour
 {
-    public TextMeshProUGUI endingText;
+    private TextMeshProUGUI endingText;
 
     [FormerlySerializedAs("handJoint")] public HingeJoint2D rivalHandJoint;
 
@@ -28,7 +28,7 @@ public class HitDetect : MonoBehaviour
     
     public GameObject player2BambooBloodStain;
 
-    private TrailRenderer weaponTrail;
+    // private TrailRenderer weaponTrail;
     
     // public BitmapSplatterManager splatterManager;
 
@@ -37,19 +37,19 @@ public class HitDetect : MonoBehaviour
     private bool isHit = false;
 
     private float hitCoolDown = 0;
-    // Start is called before the first frame update
+
     void Start()
     {
         // hitBodyFeedback = GetComponentInParent<MMF_Player>();
         weaponRb2D = GetComponent<Rigidbody2D>();
         hitBodyFeedback = GameObject.Find("Hit Body Feedback").GetComponent<MMF_Player>();
         hitWeaponFeedback = GameObject.Find("Hit Weapon Feedback").GetComponent<MMF_Player>();
-        weaponTrail = GetComponentInChildren<TrailRenderer>();
+        endingText = GameObject.Find("Ending Text").GetComponent<TextMeshProUGUI>();
+        // weaponTrail = GetComponentInChildren<TrailRenderer>();
         player1BambooBloodStain.SetActive(false);
         player2BambooBloodStain.SetActive(false);
     }
-
-    // Update is called once per frame
+    
     void FixedUpdate()
     {
         // TrailSwitch();
@@ -58,12 +58,12 @@ public class HitDetect : MonoBehaviour
             GameManager.instance.isInGame = false;
             if (gameObject.CompareTag("Player 1 Weapon"))
             {
-                endingText.text = "Player 1 Wins";
+                endingText.text = "Left Wins";
             }
             
             if (gameObject.CompareTag("Player 2 Weapon"))
             {
-                endingText.text = "Player 2 Wins";
+                endingText.text = "Right Wins";
             }
         }
 
