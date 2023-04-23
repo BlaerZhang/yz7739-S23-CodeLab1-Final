@@ -31,6 +31,10 @@ public class PlayerActions : MonoBehaviour
 
     private Vector2 bendingVector2;
 
+    private float leftJoystickVerticalAmount;
+
+    private float climbLockDeltaAngle;
+
     private Vector2 wavingVector2;
 
     private float rightTriggerValue = 0;
@@ -67,12 +71,18 @@ public class PlayerActions : MonoBehaviour
     
     void FixedUpdate()
     {
+        if (bendingVector2.magnitude < 0.01)
+        {
+            bendingVector2 = new Vector2(0.01f, 0f);
+        }
+        
         if (GameManager.instance.isInGame)
         {
             Bending();
             WavingWeapon();
-            ClimbUp();
-            ClimbDown();
+            // ClimbUp();
+            // ClimbDown();
+            ClimbDownAntiGravityForce();
         }
         GrabberLock();
     }
@@ -105,11 +115,25 @@ public class PlayerActions : MonoBehaviour
         }
     }
 
+    void ClimbDownAntiGravityForce()
+    {
+        if (climbLockDeltaAngle > 180 - actionForce.climbLockThresholdDeltaAngle)
+        {
+            foreach (Rigidbody2D rb2D in grabberRB2D)
+            {
+                rb2D.AddRelativeForce(Vector2.up * actionForce.climbingForceAmount);
+            }
+        }
+    }
+
     public void OnBending(InputAction.CallbackContext context)
     {
         // Vector2 inputVector = context.ReadValue<Vector2>();
         // rb2D.AddForce(forceAmount * inputVector, ForceMode2D.Force);
         bendingVector2 = context.ReadValue<Vector2>();
+        leftJoystickVerticalAmount = bendingVector2.y;
+        // print(climbLockDeltaAngle);
+        // print(leftJoystickVerticalAmount);
         // Debug.Log(bendingVector2);
     }
 
@@ -144,7 +168,14 @@ public class PlayerActions : MonoBehaviour
 
     void GrabberLock()
     {
-        if (rightTriggerValue == 0 && leftTriggerValue == 0 && isLocked == false) 
+        // Quaternion averageQuaternion =
+        //     Quaternion.Lerp(handGrabber.transform.rotation, footGrabber.transform.rotation, 0.5f);
+
+        climbLockDeltaAngle =
+            Quaternion.Angle(handGrabber.transform.rotation, Quaternion.LookRotation(Vector3.forward, bendingVector2));
+
+        if (climbLockDeltaAngle >= actionForce.climbLockThresholdDeltaAngle &&
+            climbLockDeltaAngle <= 180 - actionForce.climbLockThresholdDeltaAngle && isLocked == false) 
         {
             handGrabberFixedJoint2D.enabled = true;
             handGrabberFixedJoint2D.connectedBody = handColDectect.GetGrabberCollisionRigidbody2D();
@@ -157,7 +188,8 @@ public class PlayerActions : MonoBehaviour
 
         if (GameManager.instance.isInGame)
         {
-            if (rightTriggerValue > 0 || leftTriggerValue > 0)
+            if (climbLockDeltaAngle < actionForce.climbLockThresholdDeltaAngle ||
+                climbLockDeltaAngle > 180 - actionForce.climbLockThresholdDeltaAngle) 
             {
                 isLocked = false;
                 handGrabberFixedJoint2D.enabled = false;

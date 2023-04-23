@@ -133,13 +133,13 @@ public class HitDetect : MonoBehaviour
 
                     if (body.CompareTag("Player 1 Upper Body"))
                     {
-                        print("body force!");
+                        // print("body force!");
                         bodyRB2D.AddForce(Vector2.left * actionForce.weaponContactBodyForce, ForceMode2D.Impulse);
                     }
                     
                     if (body.CompareTag("Player 2 Upper Body"))
                     {
-                        print("body force!");
+                        // print("body force!");
                         bodyRB2D.AddForce(Vector2.right * actionForce.weaponContactBodyForce, ForceMode2D.Impulse);
                     }
                 }

@@ -17,4 +17,6 @@ public class ActionForceScriptableObject : ScriptableObject
     public float climbingForceAmount;
     public float weaponContactForce;
     public float weaponContactBodyForce;
+    // public float leftJoystickClimbLockThreshold;
+    public float climbLockThresholdDeltaAngle;
 }
