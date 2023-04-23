@@ -16,7 +16,11 @@ public class HitDetect : MonoBehaviour
 
     [FormerlySerializedAs("footJoint")] public HingeJoint2D rivalFootJoint;
 
-    public float weaponContactForce = 10;
+    public ActionForceScriptableObject actionForce;
+
+    public GameObject body;
+
+    private Rigidbody2D bodyRB2D;
 
     private MMF_Player hitBodyFeedback;
 
@@ -42,6 +46,7 @@ public class HitDetect : MonoBehaviour
     {
         // hitBodyFeedback = GetComponentInParent<MMF_Player>();
         weaponRb2D = GetComponent<Rigidbody2D>();
+        bodyRB2D = body.GetComponent<Rigidbody2D>();
         hitBodyFeedback = GameObject.Find("Hit Body Feedback").GetComponent<MMF_Player>();
         hitWeaponFeedback = GameObject.Find("Hit Weapon Feedback").GetComponent<MMF_Player>();
         endingText = GameObject.Find("Ending Text").GetComponent<TextMeshProUGUI>();
@@ -123,24 +128,22 @@ public class HitDetect : MonoBehaviour
                     isHit = true;
                     hitWeaponFeedback.transform.position = col.GetContact(0).point;
                     hitWeaponFeedback.PlayFeedbacks();
-                    weaponRb2D.AddForceAtPosition(col.relativeVelocity * weaponContactForce,col.GetContact(0).point, ForceMode2D.Impulse);
+                    
+                    weaponRb2D.AddForceAtPosition(col.relativeVelocity * actionForce.weaponContactForce,col.GetContact(0).point, ForceMode2D.Impulse);
+
+                    if (body.CompareTag("Player 1 Upper Body"))
+                    {
+                        print("body force!");
+                        bodyRB2D.AddForce(Vector2.left * actionForce.weaponContactBodyForce, ForceMode2D.Impulse);
+                    }
+                    
+                    if (body.CompareTag("Player 2 Upper Body"))
+                    {
+                        print("body force!");
+                        bodyRB2D.AddForce(Vector2.right * actionForce.weaponContactBodyForce, ForceMode2D.Impulse);
+                    }
                 }
             }
-            
-            // if (col.gameObject.CompareTag("Ground"))
-            // {
-            //     GameManager.instance.isInGame = false;
-            //     if (gameObject.CompareTag("Player 1 Weapon"))
-            //     {
-            //         endingText.text = "Player 2 Wins";
-            //     }
-            //
-            //     if (gameObject.CompareTag("Player 2 Weapon"))
-            //     {
-            //         endingText.text = "Player 1 Wins";
-            //     }
-            // }
-            
         }
     }
 

@@ -15,7 +15,7 @@ public class TargetGroupDetacher : MonoBehaviour
         tG = GetComponent<CinemachineTargetGroup>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (!GameManager.instance.isInGame && !isDetached)
         {

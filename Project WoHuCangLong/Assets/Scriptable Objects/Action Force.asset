@@ -15,3 +15,5 @@ MonoBehaviour:
   bendingForceAmount: 150
   wavingForceAmount: 50
   climbingForceAmount: 35
+  weaponContactForce: 0.2
+  weaponContactBodyForce: 250
