@@ -14,7 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bendingForceAmount: 150
   wavingForceAmount: 50
-  climbingForceAmount: 15
+  climbingForceAmount: 0
   weaponContactForce: 0.2
   weaponContactBodyForce: 250
   climbLockThresholdDeltaAngle: 30
+  hitVelocityThreshold: 10
+  baseDamage: 10
+  smallHitVelocityMultiplier: 1
+  smallHitVelocityMax: 20
+  mediumHitVelocityMultiplier: 1.25
+  mediumHitVelocityMax: 30
+  largeHitVelocityMultiplier: 1.5

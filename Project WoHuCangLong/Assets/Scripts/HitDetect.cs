@@ -10,11 +10,11 @@ using UnityEngine.Serialization;
 
 public class HitDetect : MonoBehaviour
 {
-    private TextMeshProUGUI endingText;
+    // private TextMeshProUGUI endingText;
 
-    [FormerlySerializedAs("handJoint")] public HingeJoint2D rivalHandJoint;
+    // public HingeJoint2D rivalHandJoint;
 
-    [FormerlySerializedAs("footJoint")] public HingeJoint2D rivalFootJoint;
+    // public HingeJoint2D rivalFootJoint;
 
     public ActionForceScriptableObject actionForce;
 
@@ -22,7 +22,11 @@ public class HitDetect : MonoBehaviour
 
     private Rigidbody2D bodyRB2D;
 
-    private MMF_Player hitBodyFeedback;
+    private MMF_Player hitBodyFeedbackSmall;
+    
+    private MMF_Player hitBodyFeedbackMedium;
+    
+    private MMF_Player hitBodyFeedbackLarge;
 
     private MMF_Player hitWeaponFeedback;
 
@@ -47,9 +51,11 @@ public class HitDetect : MonoBehaviour
         // hitBodyFeedback = GetComponentInParent<MMF_Player>();
         weaponRb2D = GetComponent<Rigidbody2D>();
         bodyRB2D = body.GetComponent<Rigidbody2D>();
-        hitBodyFeedback = GameObject.Find("Hit Body Feedback").GetComponent<MMF_Player>();
+        hitBodyFeedbackSmall = GameObject.Find("Hit Body Feedback Small").GetComponent<MMF_Player>();
+        hitBodyFeedbackMedium = GameObject.Find("Hit Body Feedback Medium").GetComponent<MMF_Player>();
+        hitBodyFeedbackLarge = GameObject.Find("Hit Body Feedback Large").GetComponent<MMF_Player>();
         hitWeaponFeedback = GameObject.Find("Hit Weapon Feedback").GetComponent<MMF_Player>();
-        endingText = GameObject.Find("Ending Text").GetComponent<TextMeshProUGUI>();
+        // endingText = GameObject.Find("Ending Text").GetComponent<TextMeshProUGUI>();
         // weaponTrail = GetComponentInChildren<TrailRenderer>();
         player1BambooBloodStain.SetActive(false);
         player2BambooBloodStain.SetActive(false);
@@ -57,20 +63,19 @@ public class HitDetect : MonoBehaviour
     
     void FixedUpdate()
     {
-        // TrailSwitch();
-        if (rivalFootJoint.enabled == false && rivalHandJoint.enabled == false)
-        {
-            GameManager.instance.isInGame = false;
-            if (gameObject.CompareTag("Player 1 Weapon"))
-            {
-                endingText.text = "Left Wins";
-            }
-            
-            if (gameObject.CompareTag("Player 2 Weapon"))
-            {
-                endingText.text = "Right Wins";
-            }
-        }
+        // if (rivalFootJoint.enabled == false && rivalHandJoint.enabled == false)
+        // {
+        //     GameManager.instance.isInGame = false;
+        //     if (gameObject.CompareTag("Player 1 Weapon"))
+        //     {
+        //         endingText.text = "Left Wins";
+        //     }
+        //     
+        //     if (gameObject.CompareTag("Player 2 Weapon"))
+        //     {
+        //         endingText.text = "Right Wins";
+        //     }
+        // }
 
         if (isHit)
         {
@@ -88,61 +93,57 @@ public class HitDetect : MonoBehaviour
     {
         if (GameManager.instance.isInGame && isHit == false)
         {
-            if (col.GetContact(0).relativeVelocity.magnitude >= 10f)
+            WeaponContact(col);
+            if (col.gameObject.name.Contains("Head") || col.gameObject.name.Contains("Body") ||
+                col.gameObject.name.Contains("Hand") || col.gameObject.name.Contains("Leg"))
             {
-                if(col.gameObject.CompareTag("Player 1 Upper Body") || col.gameObject.CompareTag("Player 2 Upper Body"))
+                float hitVelocity = col.GetContact(0).relativeVelocity.magnitude;
+                float bodyVelocity = bodyRB2D.velocity.magnitude;
+
+                if (hitVelocity >= actionForce.hitVelocityThreshold)
                 {
                     isHit = true;
                     Vector3 hitPoint = col.GetContact(0).point;
-                    hitBodyFeedback.transform.position = hitPoint;
-                    hitBodyFeedback.PlayFeedbacks();
-                    rivalHandJoint.enabled = false;
                     int orderInLayer = col.gameObject.GetComponent<SpriteRenderer>().sortingOrder;
                     bloodStain.GetComponent<SpriteRenderer>().sortingOrder = orderInLayer + 1;
                     Instantiate<GameObject>(bloodStain, hitPoint, Quaternion.identity, col.gameObject.transform);
-                    // if (col.gameObject.name == "Body" || col.gameObject.name == "Head")
+                    ShowBambooBloodStain();
+                    float damage = actionForce.baseDamage * GetHitVelocityMultiplier(hitVelocity) *
+                                   GetBodyVelocityMultiplier(bodyVelocity) *
+                                   GameManager.instance.bodyHitMultiplier[DetectBodyPart(col)];
+                    
+                    DealDamage(damage);
+                    PlayHitFeedback(damage, hitPoint);
+                    
+                    print(damage + "||" + "Body Velocity: " + bodyVelocity + "\n" + "Hit Velocity: " + hitVelocity);
+                }
+
+                // if(col.gameObject.CompareTag("Player 1 Upper Body") || col.gameObject.CompareTag("Player 2 Upper Body"))
                     // {
+                    //     isHit = true;
+                    //     Vector3 hitPoint = col.GetContact(0).point;
+                    //     hitBodyFeedback.transform.position = hitPoint;
+                    //     hitBodyFeedback.PlayFeedbacks();
+                    //     rivalHandJoint.enabled = false;
+                    //     int orderInLayer = col.gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+                    //     bloodStain.GetComponent<SpriteRenderer>().sortingOrder = orderInLayer + 1;
                     //     Instantiate<GameObject>(bloodStain, hitPoint, Quaternion.identity, col.gameObject.transform);
+                    //     ShowBambooBloodStain();
+                    //     
                     // }
-                    // splatterManager.Spawn(hitPoint);
-                    ShowBambooBloodStain();
-                    
-                }
-        
-                if(col.gameObject.CompareTag("Player 1 Lower Body") || col.gameObject.CompareTag("Player 2 Lower Body"))
-                {
-                    isHit = true;
-                    Vector3 hitPoint = col.GetContact(0).point;
-                    hitBodyFeedback.transform.position = hitPoint;
-                    hitBodyFeedback.PlayFeedbacks();
-                    rivalFootJoint.enabled = false;
-                    int orderInLayer = col.gameObject.GetComponent<SpriteRenderer>().sortingOrder;
-                    bloodStain.GetComponent<SpriteRenderer>().sortingOrder = orderInLayer + 1;
-                    Instantiate<GameObject>(bloodStain, hitPoint, Quaternion.identity, col.gameObject.transform);
-                    // splatterManager.Spawn(hitPoint);
-                    ShowBambooBloodStain();
-                }
-
-                if (col.gameObject.CompareTag("Player 1 Weapon") || col.gameObject.CompareTag("Player 2 Weapon"))
-                {
-                    isHit = true;
-                    hitWeaponFeedback.transform.position = col.GetContact(0).point;
-                    hitWeaponFeedback.PlayFeedbacks();
-                    
-                    weaponRb2D.AddForceAtPosition(col.relativeVelocity * actionForce.weaponContactForce,col.GetContact(0).point, ForceMode2D.Impulse);
-
-                    if (body.CompareTag("Player 1 Upper Body"))
-                    {
-                        // print("body force!");
-                        bodyRB2D.AddForce(Vector2.left * actionForce.weaponContactBodyForce, ForceMode2D.Impulse);
-                    }
-                    
-                    if (body.CompareTag("Player 2 Upper Body"))
-                    {
-                        // print("body force!");
-                        bodyRB2D.AddForce(Vector2.right * actionForce.weaponContactBodyForce, ForceMode2D.Impulse);
-                    }
-                }
+                    //
+                    // if(col.gameObject.CompareTag("Player 1 Lower Body") || col.gameObject.CompareTag("Player 2 Lower Body"))
+                    // {
+                    //     isHit = true;
+                    //     Vector3 hitPoint = col.GetContact(0).point;
+                    //     hitBodyFeedback.transform.position = hitPoint;
+                    //     hitBodyFeedback.PlayFeedbacks();
+                    //     rivalFootJoint.enabled = false;
+                    //     int orderInLayer = col.gameObject.GetComponent<SpriteRenderer>().sortingOrder;
+                    //     bloodStain.GetComponent<SpriteRenderer>().sortingOrder = orderInLayer + 1;
+                    //     Instantiate<GameObject>(bloodStain, hitPoint, Quaternion.identity, col.gameObject.transform);
+                    //     ShowBambooBloodStain();
+                    // }
             }
         }
     }
@@ -157,6 +158,126 @@ public class HitDetect : MonoBehaviour
         if (gameObject.CompareTag("Player 2 Weapon"))
         {
             player1BambooBloodStain.SetActive(true);
+        }
+    }
+
+    void WeaponContact(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Player 1 Weapon") || col.gameObject.CompareTag("Player 2 Weapon"))
+        {
+            isHit = true;
+            hitWeaponFeedback.transform.position = col.GetContact(0).point;
+            hitWeaponFeedback.PlayFeedbacks();
+                    
+            weaponRb2D.AddForceAtPosition(col.relativeVelocity * actionForce.weaponContactForce,col.GetContact(0).point, ForceMode2D.Impulse);
+
+            if (body.CompareTag("Player 1 Upper Body"))
+            {
+                // print("body force!");
+                bodyRB2D.AddForce(Vector2.left * actionForce.weaponContactBodyForce, ForceMode2D.Impulse);
+            }
+                    
+            if (body.CompareTag("Player 2 Upper Body"))
+            {
+                // print("body force!");
+                bodyRB2D.AddForce(Vector2.right * actionForce.weaponContactBodyForce, ForceMode2D.Impulse);
+            }
+        }
+    }
+
+    void DealDamage(float damage)
+    {
+        if (gameObject.CompareTag("Player 1 Weapon"))
+        {
+            GameManager.instance.player2HP -= damage;
+        }
+
+        if (gameObject.CompareTag("Player 2 Weapon"))
+        {
+            GameManager.instance.player1HP -= damage;
+        }
+    }
+
+    string DetectBodyPart(Collision2D col)
+    {
+        string key = "";
+        
+        if (col.gameObject.name.Contains("Head"))
+        {
+            key = "Head";
+        }
+
+        if (col.gameObject.name.Contains("Body"))
+        {
+            key = "Body";
+        }
+
+        if (col.gameObject.name.Contains("Hand"))
+        {
+            key = "Hand";
+        }
+
+        if (col.gameObject.name.Contains("Leg"))
+        {
+            key = "Leg";
+        }
+        
+        return key;
+    }
+
+    float GetHitVelocityMultiplier(float hitVelocity)
+    {
+        float hitVelocityMultiplier = 1;
+        
+        if (hitVelocity <= actionForce.smallHitVelocityMax)
+        {
+            hitVelocityMultiplier = actionForce.smallHitVelocityMultiplier;
+        }
+        else if (hitVelocity > actionForce.smallHitVelocityMax &&
+                 hitVelocity <= actionForce.mediumHitVelocityMax)
+        {
+            hitVelocityMultiplier = actionForce.mediumHitVelocityMultiplier;
+        }
+        else if (hitVelocity > actionForce.mediumHitVelocityMax)
+        {
+            hitVelocityMultiplier = actionForce.largeHitVelocityMultiplier;
+        }
+
+        return hitVelocityMultiplier;
+    }
+
+    float GetBodyVelocityMultiplier(float bodyVelocity)
+    {
+        float bodyVelocityMultiplier = 1;
+        
+        if (bodyVelocity <= 5)
+        {
+            bodyVelocityMultiplier = 1;
+        }
+        else if (bodyVelocity >= 5)
+        {
+            bodyVelocityMultiplier = bodyVelocity / 5f;
+        }
+        
+        return bodyVelocityMultiplier;
+    }
+
+    void PlayHitFeedback(float damage, Vector3 hitPoint)
+    {
+        if (damage <= 20)
+        {
+            hitBodyFeedbackSmall.transform.position = hitPoint;
+            hitBodyFeedbackSmall.PlayFeedbacks();
+        }
+        else if (damage > 20 && damage <= 40) 
+        {
+            hitBodyFeedbackMedium.transform.position = hitPoint;
+            hitBodyFeedbackMedium.PlayFeedbacks();
+        }
+        else if (damage > 40)
+        {
+            hitBodyFeedbackLarge.transform.position = hitPoint;
+            hitBodyFeedbackLarge.PlayFeedbacks();
         }
     }
 

@@ -71,11 +71,6 @@ public class PlayerActions : MonoBehaviour
     
     void FixedUpdate()
     {
-        if (bendingVector2.magnitude < 0.01)
-        {
-            bendingVector2 = new Vector2(0.01f, 0f);
-        }
-        
         if (GameManager.instance.isInGame)
         {
             Bending();
@@ -174,26 +169,40 @@ public class PlayerActions : MonoBehaviour
         climbLockDeltaAngle =
             Quaternion.Angle(handGrabber.transform.rotation, Quaternion.LookRotation(Vector3.forward, bendingVector2));
 
-        if (climbLockDeltaAngle >= actionForce.climbLockThresholdDeltaAngle &&
-            climbLockDeltaAngle <= 180 - actionForce.climbLockThresholdDeltaAngle && isLocked == false) 
+        if (!isLocked)
         {
-            handGrabberFixedJoint2D.enabled = true;
-            handGrabberFixedJoint2D.connectedBody = handColDectect.GetGrabberCollisionRigidbody2D();
-            // handGrabberFixedJoint2D.autoConfigureConnectedAnchor = false;
-            // handGrabberFixedJoint2D.autoConfigureConnectedAnchor = true;
-            footGrabberFixedJoint2D.enabled = true;
-            footGrabberFixedJoint2D.connectedBody = footColDetect.GetGrabberCollisionRigidbody2D();
-            isLocked = true;
+            if (climbLockDeltaAngle >= actionForce.climbLockThresholdDeltaAngle &&
+                climbLockDeltaAngle <= 180 - actionForce.climbLockThresholdDeltaAngle) 
+            {
+                handGrabberFixedJoint2D.enabled = true;
+                handGrabberFixedJoint2D.connectedBody = handColDectect.GetGrabberCollisionRigidbody2D();
+                footGrabberFixedJoint2D.enabled = true;
+                footGrabberFixedJoint2D.connectedBody = footColDetect.GetGrabberCollisionRigidbody2D();
+                isLocked = true;
+            }
+        
+            else if (bendingVector2 == Vector2.zero)
+            {
+                handGrabberFixedJoint2D.enabled = true;
+                handGrabberFixedJoint2D.connectedBody = handColDectect.GetGrabberCollisionRigidbody2D();
+                footGrabberFixedJoint2D.enabled = true;
+                footGrabberFixedJoint2D.connectedBody = footColDetect.GetGrabberCollisionRigidbody2D();
+                isLocked = true;
+            }
         }
-
+       
+        
         if (GameManager.instance.isInGame)
         {
-            if (climbLockDeltaAngle < actionForce.climbLockThresholdDeltaAngle ||
-                climbLockDeltaAngle > 180 - actionForce.climbLockThresholdDeltaAngle) 
+            if (bendingVector2 != Vector2.zero)
             {
-                isLocked = false;
-                handGrabberFixedJoint2D.enabled = false;
-                footGrabberFixedJoint2D.enabled = false;
+                if (climbLockDeltaAngle < actionForce.climbLockThresholdDeltaAngle ||
+                    climbLockDeltaAngle > 180 - actionForce.climbLockThresholdDeltaAngle) 
+                {
+                    isLocked = false;
+                    handGrabberFixedJoint2D.enabled = false;
+                    footGrabberFixedJoint2D.enabled = false;
+                }
             }
         }
     }
