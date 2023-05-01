@@ -20,7 +20,11 @@ public class HitDetect : MonoBehaviour
 
     public GameObject body;
 
+    public GameObject rivalBody;
+
     private Rigidbody2D bodyRB2D;
+
+    private Rigidbody2D rivalBodyRB2D;
 
     private MMF_Player hitBodyFeedbackSmall;
     
@@ -51,6 +55,7 @@ public class HitDetect : MonoBehaviour
         // hitBodyFeedback = GetComponentInParent<MMF_Player>();
         weaponRb2D = GetComponent<Rigidbody2D>();
         bodyRB2D = body.GetComponent<Rigidbody2D>();
+        rivalBodyRB2D = rivalBody.GetComponent<Rigidbody2D>();
         hitBodyFeedbackSmall = GameObject.Find("Hit Body Feedback Small").GetComponent<MMF_Player>();
         hitBodyFeedbackMedium = GameObject.Find("Hit Body Feedback Medium").GetComponent<MMF_Player>();
         hitBodyFeedbackLarge = GameObject.Find("Hit Body Feedback Large").GetComponent<MMF_Player>();
@@ -98,7 +103,8 @@ public class HitDetect : MonoBehaviour
                 col.gameObject.name.Contains("Hand") || col.gameObject.name.Contains("Leg"))
             {
                 float hitVelocity = col.GetContact(0).relativeVelocity.magnitude;
-                float bodyVelocity = bodyRB2D.velocity.magnitude;
+                // float bodyVelocity = bodyRB2D.velocity.magnitude;
+                float relativeBodyVelocity = (bodyRB2D.velocity - rivalBodyRB2D.velocity).magnitude;
 
                 if (hitVelocity >= actionForce.hitVelocityThreshold)
                 {
@@ -109,13 +115,13 @@ public class HitDetect : MonoBehaviour
                     Instantiate<GameObject>(bloodStain, hitPoint, Quaternion.identity, col.gameObject.transform);
                     ShowBambooBloodStain();
                     float damage = actionForce.baseDamage * GetHitVelocityMultiplier(hitVelocity) *
-                                   GetBodyVelocityMultiplier(bodyVelocity) *
+                                   GetBodyVelocityMultiplier(relativeBodyVelocity) *
                                    GameManager.instance.bodyHitMultiplier[DetectBodyPart(col)];
                     
                     DealDamage(damage);
                     PlayHitFeedback(damage, hitPoint);
                     
-                    print(damage + "||" + "Body Velocity: " + bodyVelocity + "\n" + "Hit Velocity: " + hitVelocity);
+                    print(damage + "||" + "Body Velocity: " + relativeBodyVelocity + "\n" + "Hit Velocity: " + hitVelocity);
                 }
 
                 // if(col.gameObject.CompareTag("Player 1 Upper Body") || col.gameObject.CompareTag("Player 2 Upper Body"))
@@ -245,6 +251,7 @@ public class HitDetect : MonoBehaviour
 
         return hitVelocityMultiplier;
     }
+    
 
     float GetBodyVelocityMultiplier(float bodyVelocity)
     {

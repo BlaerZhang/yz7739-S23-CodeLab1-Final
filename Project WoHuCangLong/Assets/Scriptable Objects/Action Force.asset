@@ -17,7 +17,7 @@ MonoBehaviour:
   climbingForceAmount: 0
   weaponContactForce: 0.2
   weaponContactBodyForce: 250
-  climbLockThresholdDeltaAngle: 30
+  climbLockThresholdDeltaAngle: 45
   hitVelocityThreshold: 10
   baseDamage: 10
   smallHitVelocityMultiplier: 1

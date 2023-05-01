@@ -914,6 +914,71 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &89678012
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2134435226}
+    m_Modifications:
+    - target: {fileID: 932361028713838400, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: EmissionModule.rateOverDistance.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70105743
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.70105743
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.092296
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.092296
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838413, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_Name
+      value: Dripping Blood
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838413, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_TagString
+      value: Player 1 Upper Body
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
 --- !u!1 &95956968
 GameObject:
   m_ObjectHideFlags: 0
@@ -1867,7 +1932,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 197780684}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -22.549988, z: 5}
+  m_LocalPosition: {x: 0, y: -30, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3164,9 +3229,9 @@ MonoBehaviour:
   player1HP: 100
   player2HP: 100
   bodyMultiplier: 1
-  headMultiplier: 3
-  handMultiplier: 1.5
-  legMultiplier: 1.5
+  headMultiplier: 5
+  handMultiplier: 2
+  legMultiplier: 2
   player1FootJoint: {fileID: 123988170}
   player1HandJoint: {fileID: 1541108168}
   player2FootJoint: {fileID: 177038896}
@@ -3534,7 +3599,7 @@ MonoBehaviour:
             m_PreInfinity: 2
             m_PostInfinity: 2
             m_RotationOrder: 4
-          m_ImpulseDuration: 0.35
+          m_ImpulseDuration: 0.25
           m_ImpulseType: 0
           m_DissipationRate: 0
           m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
@@ -3565,7 +3630,7 @@ MonoBehaviour:
           m_DissipationMode: 2
           m_DissipationDistance: 100
           m_PropagationSpeed: 343
-        Velocity: {x: 0.3, y: 0.3, z: 0}
+        Velocity: {x: 0.25, y: 0.25, z: 0}
         ClearImpulseOnStop: 1
     - rid: 7244429297954586624
       type: {class: MMF_ParticlesInstantiation, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks}
@@ -3732,7 +3797,7 @@ MonoBehaviour:
         DebugActive: 0
         Mode: 0
         TimeScale: 0.5
-        TimeScaleDuration: 0.35
+        TimeScaleDuration: 0.5
         TimeScaleLerp: 0
         TimeScaleLerpSpeed: 1
         ResetTimescaleOnStop: 0
@@ -4567,6 +4632,11 @@ Transform:
   m_Father: {fileID: 185372289}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &489077676 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+  m_PrefabInstance: {fileID: 89678012}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &503838493
 GameObject:
   m_ObjectHideFlags: 0
@@ -7513,7 +7583,7 @@ MonoBehaviour:
             m_PreInfinity: 2
             m_PostInfinity: 2
             m_RotationOrder: 4
-          m_ImpulseDuration: 0.2
+          m_ImpulseDuration: 0.1
           m_ImpulseType: 0
           m_DissipationRate: 0
           m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
@@ -9118,7 +9188,7 @@ MonoBehaviour:
             m_PreInfinity: 2
             m_PostInfinity: 2
             m_RotationOrder: 4
-          m_ImpulseDuration: 0.5
+          m_ImpulseDuration: 0.75
           m_ImpulseType: 0
           m_DissipationRate: 0
           m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
@@ -9149,7 +9219,7 @@ MonoBehaviour:
           m_DissipationMode: 2
           m_DissipationDistance: 100
           m_PropagationSpeed: 343
-        Velocity: {x: 0.5, y: 0.5, z: 0}
+        Velocity: {x: 1, y: 1, z: 0}
         ClearImpulseOnStop: 1
     - rid: 7244429297954586624
       type: {class: MMF_ParticlesInstantiation, ns: MoreMountains.Feedbacks, asm: MoreMountains.Feedbacks}
@@ -9191,9 +9261,8 @@ MonoBehaviour:
         MutualizePools: 0
         ParentTransform: {fileID: 0}
         CachedRecycle: 1
-        ParticlesPrefab: {fileID: 198446458854354212, guid: 76b44e521f0d74b489b58fecf98c8f7e, type: 3}
+        ParticlesPrefab: {fileID: 198446458854354212, guid: 707aa802724a523448f8ac32b24fa3ac, type: 3}
         RandomParticlePrefabs:
-        - {fileID: 198446458854354212, guid: 76b44e521f0d74b489b58fecf98c8f7e, type: 3}
         - {fileID: 198446458854354212, guid: 707aa802724a523448f8ac32b24fa3ac, type: 3}
         ForceSetActiveOnPlay: 0
         PositionMode: 0
@@ -9315,8 +9384,8 @@ MonoBehaviour:
         Owner: {fileID: 1084590115}
         DebugActive: 0
         Mode: 0
-        TimeScale: 0.25
-        TimeScaleDuration: 0.5
+        TimeScale: 0.1
+        TimeScaleDuration: 1
         TimeScaleLerp: 0
         TimeScaleLerpSpeed: 1
         ResetTimescaleOnStop: 0
@@ -10350,6 +10419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionForce: {fileID: 11400000, guid: 2e34196ede8e61d479c8ab34f6eaa388, type: 2}
   body: {fileID: 1150666644}
+  rivalBody: {fileID: 1946573183}
   bloodStain: {fileID: 3924816081691890621, guid: 12af8ec80c194324bad8234507b3daaf, type: 3}
   player1BambooBloodStain: {fileID: 452151841}
   player2BambooBloodStain: {fileID: 1175631781}
@@ -12176,7 +12246,7 @@ GameObject:
   - component: {fileID: 1420643613}
   m_Layer: 10
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Player 2 Upper Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12192,7 +12262,8 @@ Transform:
   m_LocalPosition: {x: 0.5399999, y: 8.92, z: 0}
   m_LocalScale: {x: 0.6197, y: 0.6197, z: 0.6197001}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2077586104}
   m_Father: {fileID: 625498420}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12978,6 +13049,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionForce: {fileID: 11400000, guid: 2e34196ede8e61d479c8ab34f6eaa388, type: 2}
   body: {fileID: 1946573183}
+  rivalBody: {fileID: 1150666644}
   bloodStain: {fileID: 3924816081691890621, guid: 12af8ec80c194324bad8234507b3daaf, type: 3}
   player1BambooBloodStain: {fileID: 452151841}
   player2BambooBloodStain: {fileID: 1175631781}
@@ -18030,6 +18102,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &2077586104 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+  m_PrefabInstance: {fileID: 932361027208775162}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2093015305
 GameObject:
   m_ObjectHideFlags: 0
@@ -18400,7 +18477,7 @@ GameObject:
   - component: {fileID: 2134435230}
   m_Layer: 6
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Player 1 Upper Body
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18416,7 +18493,8 @@ Transform:
   m_LocalPosition: {x: 0.5400001, y: 8.92, z: 0}
   m_LocalScale: {x: 0.6197001, y: 0.6197001, z: 0.6197001}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 489077676}
   m_Father: {fileID: 185372289}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -18588,3 +18666,68 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!1001 &932361027208775162
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1420643609}
+    m_Modifications:
+    - target: {fileID: 932361028713838400, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: EmissionModule.rateOverDistance.scalar
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70105743
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.70105743
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.092296
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.092296
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838402, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838413, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_Name
+      value: ngBloodg Blood
+      objectReference: {fileID: 0}
+    - target: {fileID: 932361028713838413, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
+      propertyPath: m_TagString
+      value: Player 2 Upper Body
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 25c31502d32ad3d45aeacb71f00a5010, type: 3}
