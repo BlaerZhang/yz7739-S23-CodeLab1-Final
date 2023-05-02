@@ -9,10 +9,21 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    // public static GameObject gameManager;
+
     [HideInInspector]
-    public bool isInGame = true;
+    public bool isInRound = true;
+
+    [HideInInspector]
+    public bool isInMatch = true;
+
+    public int player1WinsCount = 0;
+
+    public int player2WinsCount = 0;
+
+    public int targetWinsCount = 3;
     
-    private TextMeshProUGUI endingText;
+    public TextMeshProUGUI endingText;
 
     public float player1HP = 100;
 
@@ -28,21 +39,34 @@ public class GameManager : MonoBehaviour
 
     public float legMultiplier;
 
-    public HingeJoint2D player1FootJoint;
+    // public HingeJoint2D player1FootJoint;
+    //
+    // public HingeJoint2D player1HandJoint;
+    //
+    // public HingeJoint2D player2FootJoint;
+    //
+    // public HingeJoint2D player2HandJoint;
 
-    public HingeJoint2D player1HandJoint;
 
-    public HingeJoint2D player2FootJoint;
-
-    public HingeJoint2D player2HandJoint;
+    private void Awake()
+    {
+        // endingText = GameObject.Find("Ending Text").GetComponent<TextMeshProUGUI>();
+        
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+    }
 
     void Start()
     {
-        instance = this;
-        isInGame = true;
+        isInRound = true;
         player1HP = player2HP;
-        
-        endingText = GameObject.Find("Ending Text").GetComponent<TextMeshProUGUI>();
 
         bodyHitMultiplier.Add("Head", headMultiplier);
         bodyHitMultiplier.Add("Body", bodyMultiplier);
@@ -50,33 +74,46 @@ public class GameManager : MonoBehaviour
         bodyHitMultiplier.Add("Leg", legMultiplier);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        // print("P1 "+player1HP);
-        // print("P2 "+player2HP);
-        if (player1HP <= 50)
+        if (player1HP <= 0 && isInRound)
         {
-            player1FootJoint.enabled = false;
+            isInRound = false;
+            player2WinsCount += 1;
+            if (player2WinsCount == targetWinsCount)
+            {
+                endingText.text = "Right Wins the Match";
+                isInMatch = false;
+            }
+            else
+            {
+                endingText.text = "Right Wins the Round";
+                Invoke("ResetRound", 8f);
+            }
         }
         
+        if (player2HP <= 0 && isInRound)
+        {
+            isInRound = false;
+            player1WinsCount += 1;
+            if (player1WinsCount == targetWinsCount)
+            {
+                endingText.text = "Left Wins the Match";
+                isInMatch = false;
+            }
+            else if (isInRound)
+            {
+                endingText.text = "Left Wins the Round";
+                Invoke("ResetRound", 8f);
+            }
+        }
+    }
 
-        if (player2HP <= 50)
-        {
-            player2FootJoint.enabled = false;
-        }
-        
-        if (player1HP <= 0)
-        {
-            isInGame = false;
-            player1HandJoint.enabled = false;
-            endingText.text = "Right Wins";
-        }
-        
-        if (player2HP <= 0)
-        {
-            isInGame = false;
-            player2HandJoint.enabled = false;
-            endingText.text = "Left Wins";
-        }
+    public void ResetRound()
+    {
+        isInRound = true;
+        player1HP = player2HP = 100;
+        endingText.text = "";
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

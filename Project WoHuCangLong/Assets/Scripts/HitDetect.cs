@@ -96,7 +96,7 @@ public class HitDetect : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (GameManager.instance.isInGame && isHit == false)
+        if (GameManager.instance.isInRound && isHit == false)
         {
             WeaponContact(col);
             if (col.gameObject.name.Contains("Head") || col.gameObject.name.Contains("Body") ||
@@ -118,7 +118,7 @@ public class HitDetect : MonoBehaviour
                                    GetBodyVelocityMultiplier(relativeBodyVelocity) *
                                    GameManager.instance.bodyHitMultiplier[DetectBodyPart(col)];
                     
-                    DealDamage(damage);
+                    DealDamage(damage); 
                     PlayHitFeedback(damage, hitPoint);
                     
                     print(damage + "||" + "Body Velocity: " + relativeBodyVelocity + "\n" + "Hit Velocity: " + hitVelocity);

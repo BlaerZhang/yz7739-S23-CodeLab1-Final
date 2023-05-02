@@ -17,7 +17,7 @@ public class TargetGroupDetacher : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!GameManager.instance.isInGame && !isDetached)
+        if (!GameManager.instance.isInRound && !isDetached)
         {
             tG.RemoveMember(tG.m_Targets[0].target);
             tG.RemoveMember(tG.m_Targets[0].target);

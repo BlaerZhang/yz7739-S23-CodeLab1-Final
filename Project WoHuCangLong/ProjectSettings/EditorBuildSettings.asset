@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Fight.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/Scenes/Climb Test v2.unity
+    guid: b87e534d8b03564448286de62e90a235
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 2e9a8d93956c4334387406fff7e6cace, type: 2}

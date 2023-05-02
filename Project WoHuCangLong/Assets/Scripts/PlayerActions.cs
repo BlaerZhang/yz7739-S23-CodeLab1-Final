@@ -71,7 +71,7 @@ public class PlayerActions : MonoBehaviour
     
     void FixedUpdate()
     {
-        if (GameManager.instance.isInGame)
+        if (GameManager.instance.isInRound)
         {
             Bending();
             WavingWeapon();
@@ -140,15 +140,17 @@ public class PlayerActions : MonoBehaviour
 
     public void OnRestart(InputAction.CallbackContext context)
     {
-        if (!GameManager.instance.isInGame)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
+        // if (!GameManager.instance.isInRound)
+        // {
+        //     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        // }
     }
     
     public void OnReload(InputAction.CallbackContext context)
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameManager.instance.ResetRound();
+        GameManager.instance.player1WinsCount = 0;
+        GameManager.instance.player2WinsCount = 0;
     }
 
     public void OnClimbUp(InputAction.CallbackContext context)
@@ -192,7 +194,7 @@ public class PlayerActions : MonoBehaviour
         }
        
         
-        if (GameManager.instance.isInGame)
+        if (GameManager.instance.isInRound)
         {
             if (bendingVector2 != Vector2.zero)
             {
