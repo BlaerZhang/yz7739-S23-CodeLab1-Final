@@ -140,10 +140,12 @@ public class PlayerActions : MonoBehaviour
 
     public void OnRestart(InputAction.CallbackContext context)
     {
-        // if (!GameManager.instance.isInRound)
-        // {
-        //     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        // }
+        if (!GameManager.instance.isInMatch)
+        {
+            GameManager.instance.ResetRound();
+            GameManager.instance.player1WinsCount = 0;
+            GameManager.instance.player2WinsCount = 0;
+        }
     }
     
     public void OnReload(InputAction.CallbackContext context)

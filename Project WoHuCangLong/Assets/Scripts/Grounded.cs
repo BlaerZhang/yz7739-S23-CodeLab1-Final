@@ -25,7 +25,17 @@ public class Grounded : MonoBehaviour
         {
             isGrounded = true;
             groundFeedback.PlayFeedbacks();
-            subText.text += "\nPress A or Space to Restart";
+            if (GameManager.instance.isInMatch)
+            {
+                subText.text += "\n" + GameManager.instance.player1WinsCount + " - " +
+                                GameManager.instance.player2WinsCount + "\nGet Ready for the Next Round";
+            }
+            else
+            {
+                subText.text += "\n" + GameManager.instance.player1WinsCount + " - " +
+                                GameManager.instance.player2WinsCount + "\nPress A or Space to Start a New Match";
+            }
+            
         }
     }
 }

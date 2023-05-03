@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         isInRound = true;
+        isInMatch = true;
         player1HP = player2HP;
 
         bodyHitMultiplier.Add("Head", headMultiplier);
@@ -82,7 +83,7 @@ public class GameManager : MonoBehaviour
             player2WinsCount += 1;
             if (player2WinsCount == targetWinsCount)
             {
-                endingText.text = "Right Wins the Match";
+                endingText.text = "Right Wins";
                 isInMatch = false;
             }
             else
@@ -98,10 +99,10 @@ public class GameManager : MonoBehaviour
             player1WinsCount += 1;
             if (player1WinsCount == targetWinsCount)
             {
-                endingText.text = "Left Wins the Match";
+                endingText.text = "Left Wins";
                 isInMatch = false;
             }
-            else if (isInRound)
+            else
             {
                 endingText.text = "Left Wins the Round";
                 Invoke("ResetRound", 8f);
@@ -112,6 +113,7 @@ public class GameManager : MonoBehaviour
     public void ResetRound()
     {
         isInRound = true;
+        isInMatch = true;
         player1HP = player2HP = 100;
         endingText.text = "";
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
